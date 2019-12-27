@@ -1,0 +1,27 @@
+ipacc is a *nix-based daemon developed to collect consumed network traffic passing through Cisco router.
+The information is kept in a structured way in a textual form and presented per days, months and years.
+
+Here are the complete and detailed steps to get it working:
+1. Enable rsh server on a router and specify the IP address and user of this machine in terminal configuration shell, e.g.:
+Router#configure terminal
+Router(config)#ip rcmd rsh-enable
+Router(config)#ip rcmd remote-host root xxx.xxx.xxx.xxx root enable
+
+2. Edit ipacc.conf configuration file.
+
+3. Enable IP accounting output-packets on a desired interface of router:
+Router#configure terminal
+Router(config)#interface f0/0
+Router(config-if)#ip accounting output-packets
+
+4. Edit crontab file to run ipaccou when necessary. Also it is needed that a current working directory should be
+given as a command line argument in crontab entry (e.g.: /home/avdav/ipacc/ipacc /home/avdav/ipacc).
+When specifying a large amount of time interval in crontab, make sure if there is enough quantity 
+of entries in the accounting database of the router. It is recommended to set ip accounting-threshold 
+(512 entries is by default) to 32768 entries, e.g.:
+Router#configure terminal
+Router(config)#ip accounting-threshold 32768
+
+Davit Avakimyan.
+Computing Centre of National Laboratory after Artem Alikhanyan.
+Drop me an e-mail in case of arising inquiries: avdavster@gmail.com
